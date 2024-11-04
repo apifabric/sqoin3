@@ -1,0 +1,114 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Ball: Represents the ball used in the Pong game.
+BallMovement: Records the movement details of the ball.
+Game: Represents a game session in Pong.
+Collision: Tracks collision events during a game.
+GameSetting: Stores configurable settings for a game.
+Leaderboard: Historical performance records of players.
+Player: Represents a player in the Pong game.
+Match: Represents a match between two players.
+Paddle: Represents a player's paddle in the game.
+PowerUp: Power-ups that can be collected in the game.
+Score: Tracks the score of a player in a game.
+Tournament: A collection of matches part of a tournament.
+'''
+}
+
+Table Ball {
+    id INTEGER [primary key]
+    radius INTEGER 
+    }
+
+Table BallMovement {
+    id INTEGER [primary key]
+    game_id INTEGER 
+    timestamp DATETIME 
+    position_x FLOAT 
+    position_y FLOAT 
+    }
+
+Table Game {
+    id INTEGER [primary key]
+    start_time DATETIME 
+    end_time DATETIME 
+    }
+
+Table Collision {
+    id INTEGER [primary key]
+    game_id INTEGER 
+    timestamp DATETIME 
+    object_type VARCHAR 
+    }
+
+Table GameSetting {
+    id INTEGER [primary key]
+    game_id INTEGER 
+    difficulty VARCHAR 
+    max_score INTEGER 
+    }
+
+Table Leaderboard {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    games_played INTEGER 
+    games_won INTEGER 
+    }
+
+Table Player {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    }
+
+Table Match {
+    id INTEGER [primary key]
+    player1_id INTEGER 
+    player2_id INTEGER 
+    game_id INTEGER 
+    }
+
+Table Paddle {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    length INTEGER 
+    }
+
+Table PowerUp {
+    id INTEGER [primary key]
+    game_id INTEGER 
+    Type VARCHAR 
+    duration INTEGER 
+    }
+
+Table Score {
+    id INTEGER [primary key]
+    player_id INTEGER 
+    game_id INTEGER 
+    points INTEGER 
+    }
+
+Table Tournament {
+    id INTEGER [primary key]
+    name VARCHAR 
+    date DATETIME 
+    }
+
+
+
+// Relationships
+    Ref: BallMovement.(game_id) < Game.(id)
+    Ref: Collision.(game_id) < Game.(id)
+    Ref: GameSetting.(game_id) < Game.(id)
+    Ref: Leaderboard.(player_id) < Player.(id)
+    Ref: Match.(game_id) < Game.(id)
+    Ref: Match.(player1_id) < Player.(id)
+    Ref: Match.(player2_id) < Player.(id)
+    Ref: Paddle.(player_id) < Player.(id)
+    Ref: PowerUp.(game_id) < Game.(id)
+    Ref: Score.(game_id) < Game.(id)
+    Ref: Score.(player_id) < Player.(id)

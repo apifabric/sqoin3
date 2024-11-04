@@ -1,0 +1,343 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="id" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Game_form_edit" 
+        service="Game" 
+        entity="Game" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-integer-input #id attr="id" label=" id*" type="integer" editable="no" required="no" ></o-integer-input>
+      
+      <o-date-input #start_time attr="start_time" type="timestamp" label="start_time" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+      <o-date-input #end_time attr="end_time" type="timestamp" label="end_time" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="BALLMOVEMENT-game_id">
+    <div layout-padding>
+      <o-table 
+        attr="BallMovementTable" 
+        service="BallMovement" 
+        entity="BallMovement" 
+        keys="id"
+        parent-keys="game_id:id"
+        columns="id;game_id;timestamp;position_x;position_y"  
+        horizontal-scroll="yes"
+        detail-form-route="BallMovement" 
+        edit-form-route="BallMovement"
+        visible-columns="id;game_id;timestamp;position_x;position_y"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #timestamp attr="timestamp" title="timestamp" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #position_x attr="position_x" title="position_x" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+          <o-table-column #position_y attr="position_y" title="position_y" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="COLLISION-game_id">
+    <div layout-padding>
+      <o-table 
+        attr="CollisionTable" 
+        service="Collision" 
+        entity="Collision" 
+        keys="id"
+        parent-keys="game_id:id"
+        columns="id;game_id;timestamp;object_type"  
+        horizontal-scroll="yes"
+        detail-form-route="Collision" 
+        edit-form-route="Collision"
+        visible-columns="id;game_id;timestamp;object_type"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #timestamp attr="timestamp" title="timestamp" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #object_type attr="object_type" title="object_type" editable="no" required="yes" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="GAMESETTING-game_id">
+    <div layout-padding>
+      <o-table 
+        attr="GameSettingTable" 
+        service="GameSetting" 
+        entity="GameSetting" 
+        keys="id"
+        parent-keys="game_id:id"
+        columns="id;game_id;difficulty;max_score"  
+        horizontal-scroll="yes"
+        detail-form-route="GameSetting" 
+        edit-form-route="GameSetting"
+        visible-columns="id;game_id;difficulty;max_score"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #difficulty attr="difficulty" title="difficulty" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #max_score attr="max_score" title="max_score" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="MATCH-game_id">
+    <div layout-padding>
+      <o-table 
+        attr="MatchTable" 
+        service="Match" 
+        entity="Match" 
+        keys="id"
+        parent-keys="game_id:id"
+        columns="id;game_id;player1_id;player2_id"  
+        horizontal-scroll="yes"
+        detail-form-route="Match" 
+        edit-form-route="Match"
+        visible-columns="id;game_id;player1_id;player2_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="player1_id" title="player1_id">
+    <o-table-cell-renderer-service attr="player1_id" 
+        service="Player" entity="PlayerType" columns="id;name"
+        parent-keys="id:player1_id"
+        value-column="name" keys="player1_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="player2_id" title="player2_id">
+    <o-table-cell-renderer-service attr="player2_id" 
+        service="Player" entity="PlayerType" columns="id;name"
+        parent-keys="id:player2_id"
+        value-column="name" keys="player2_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="POWERUP-game_id">
+    <div layout-padding>
+      <o-table 
+        attr="PowerUpTable" 
+        service="PowerUp" 
+        entity="PowerUp" 
+        keys="id"
+        parent-keys="game_id:id"
+        columns="id;game_id;Type;duration"  
+        horizontal-scroll="yes"
+        detail-form-route="PowerUp" 
+        edit-form-route="PowerUp"
+        visible-columns="id;game_id;Type;duration"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #Type attr="Type" title="Type" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #duration attr="duration" title="duration" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="SCORE-game_id">
+    <div layout-padding>
+      <o-table 
+        attr="ScoreTable" 
+        service="Score" 
+        entity="Score" 
+        keys="id"
+        parent-keys="game_id:id"
+        columns="id;game_id;player_id;points"  
+        horizontal-scroll="yes"
+        detail-form-route="Score" 
+        edit-form-route="Score"
+        visible-columns="id;game_id;player_id;points"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="player_id" title="player_id">
+    <o-table-cell-renderer-service attr="player_id" 
+        service="Player" entity="PlayerType" columns="id;name"
+        parent-keys="id:player_id"
+        value-column="name" keys="player_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #points attr="points" title="points" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

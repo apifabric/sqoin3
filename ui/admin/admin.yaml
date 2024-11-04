@@ -1,0 +1,340 @@
+about:
+  date: November 04, 2024 08:08:37
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Ball:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: radius
+      required: true
+    description: Represents the ball used in the Pong game.
+    info_list: Represents the ball used in the Pong game.
+    type: Ball
+    user_key: id
+  BallMovement:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+      required: true
+    - name: timestamp
+      type: DATETIME
+    - name: position_x
+      required: true
+    - name: position_y
+      required: true
+    description: Records the movement details of the ball.
+    info_list: Records the movement details of the ball.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: BallMovement
+    user_key: id
+  Collision:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+      required: true
+    - name: timestamp
+      type: DATETIME
+    - name: object_type
+      required: true
+    description: Tracks collision events during a game.
+    info_list: Tracks collision events during a game.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: Collision
+    user_key: id
+  Game:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: start_time
+      type: DATETIME
+    - name: end_time
+      type: DATETIME
+    description: Represents a game session in Pong.
+    info_list: Represents a game session in Pong.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - game_id
+      name: BallMovementList
+      resource: BallMovement
+    - direction: tomany
+      fks:
+      - game_id
+      name: CollisionList
+      resource: Collision
+    - direction: tomany
+      fks:
+      - game_id
+      name: GameSettingList
+      resource: GameSetting
+    - direction: tomany
+      fks:
+      - game_id
+      name: MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - game_id
+      name: PowerUpList
+      resource: PowerUp
+    - direction: tomany
+      fks:
+      - game_id
+      name: ScoreList
+      resource: Score
+    type: Game
+    user_key: id
+  GameSetting:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+      required: true
+    - name: difficulty
+      required: true
+    - name: max_score
+      required: true
+    description: Stores configurable settings for a game.
+    info_list: Stores configurable settings for a game.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: GameSetting
+    user_key: id
+  Leaderboard:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+      required: true
+    - name: games_won
+    - name: games_played
+    description: Historical performance records of players.
+    info_list: Historical performance records of players.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Leaderboard
+    user_key: id
+  Match:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+      required: true
+    - name: player1_id
+      required: true
+    - name: player2_id
+      required: true
+    description: Represents a match between two players.
+    info_list: Represents a match between two players.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    - direction: toone
+      fks:
+      - player1_id
+      name: player1
+      resource: Player
+    - direction: toone
+      fks:
+      - player2_id
+      name: player2
+      resource: Player
+    type: Match
+    user_key: id
+  Paddle:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: player_id
+      required: true
+    - name: length
+      required: true
+    description: Represents a player's paddle in the game.
+    info_list: Represents a player's paddle in the game.
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Paddle
+    user_key: id
+  Player:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+    - name: id
+    description: Represents a player in the Pong game.
+    info_list: Represents a player in the Pong game.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - player_id
+      name: LeaderboardList
+      resource: Leaderboard
+    - direction: tomany
+      fks:
+      - player1_id
+      name: MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - player2_id
+      name: player2MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - player_id
+      name: PaddleList
+      resource: Paddle
+    - direction: tomany
+      fks:
+      - player_id
+      name: ScoreList
+      resource: Score
+    type: Player
+    user_key: name
+  PowerUp:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+      required: true
+    - name: Type
+      required: true
+    - name: duration
+      required: true
+    description: Power-ups that can be collected in the game.
+    info_list: Power-ups that can be collected in the game.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: PowerUp
+    user_key: id
+  Score:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: game_id
+      required: true
+    - name: player_id
+      required: true
+    - name: points
+    description: Tracks the score of a player in a game.
+    info_list: Tracks the score of a player in a game.
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Score
+    user_key: id
+  Tournament:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: date
+      type: DATETIME
+    - name: id
+    description: A collection of matches part of a tournament.
+    info_list: A collection of matches part of a tournament.
+    type: Tournament
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

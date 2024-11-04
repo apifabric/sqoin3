@@ -1,0 +1,506 @@
+about:
+  date: November 04, 2024 08:08:37
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Ball:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: radius
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents the ball used in the Pong game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents the ball used in the Pong game.
+    label: Ball
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: Ball
+  BallMovement:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: game_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: timestamp
+      type: DATETIME
+    - name: position_x
+      required: true
+      template: real
+      type: FLOAT
+    - name: position_y
+      required: true
+      template: real
+      type: FLOAT
+    description: Records the movement details of the ball.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Records the movement details of the ball.
+    label: BallMovement
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: BallMovement
+  Collision:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: game_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: timestamp
+      type: DATETIME
+    - name: object_type
+      required: true
+      template: text
+      type: VARCHAR
+    description: Tracks collision events during a game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Tracks collision events during a game.
+    label: Collision
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: Collision
+  Game:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: start_time
+      type: DATETIME
+    - name: end_time
+      type: DATETIME
+    description: Represents a game session in Pong.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents a game session in Pong.
+    label: Game
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - game_id
+      name: BallMovementList
+      resource: BallMovement
+    - direction: tomany
+      fks:
+      - game_id
+      name: CollisionList
+      resource: Collision
+    - direction: tomany
+      fks:
+      - game_id
+      name: GameSettingList
+      resource: GameSetting
+    - direction: tomany
+      fks:
+      - game_id
+      name: MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - game_id
+      name: PowerUpList
+      resource: PowerUp
+    - direction: tomany
+      fks:
+      - game_id
+      name: ScoreList
+      resource: Score
+    type: Game
+  GameSetting:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: game_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: difficulty
+      required: true
+      template: text
+      type: VARCHAR
+    - name: max_score
+      required: true
+      template: integer
+      type: INTEGER
+    description: Stores configurable settings for a game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Stores configurable settings for a game.
+    label: GameSetting
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: GameSetting
+  Leaderboard:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: player_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: games_won
+      template: integer
+      type: INTEGER
+    - name: games_played
+      template: integer
+      type: INTEGER
+    description: Historical performance records of players.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Historical performance records of players.
+    label: Leaderboard
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Leaderboard
+  Match:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: game_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: player1_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: player2_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents a match between two players.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents a match between two players.
+    label: Match
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    - direction: toone
+      fks:
+      - player1_id
+      name: player1
+      resource: Player
+    - direction: toone
+      fks:
+      - player2_id
+      name: player2
+      resource: Player
+    type: Match
+  Paddle:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: player_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: length
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents a player's paddle in the game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Represents a player's paddle in the game.
+    label: Paddle
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Paddle
+  Player:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a player in the Pong game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Represents a player in the Pong game.
+    label: Player
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - player_id
+      name: LeaderboardList
+      resource: Leaderboard
+    - direction: tomany
+      fks:
+      - player1_id
+      name: MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - player2_id
+      name: player2MatchList
+      resource: Match
+    - direction: tomany
+      fks:
+      - player_id
+      name: PaddleList
+      resource: Paddle
+    - direction: tomany
+      fks:
+      - player_id
+      name: ScoreList
+      resource: Score
+    type: Player
+  PowerUp:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: game_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: Type
+      required: true
+      template: text
+      type: VARCHAR
+    - name: duration
+      required: true
+      template: integer
+      type: INTEGER
+    description: Power-ups that can be collected in the game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Power-ups that can be collected in the game.
+    label: PowerUp
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    type: PowerUp
+  Score:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: game_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: player_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: points
+      template: integer
+      type: INTEGER
+    description: Tracks the score of a player in a game.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Tracks the score of a player in a game.
+    label: Score
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - game_id
+      name: game
+      resource: Game
+    - direction: toone
+      fks:
+      - player_id
+      name: player
+      resource: Player
+    type: Score
+  Tournament:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: A collection of matches part of a tournament.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: A collection of matches part of a tournament.
+    label: Tournament
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: Tournament
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

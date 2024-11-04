@@ -1,0 +1,44 @@
+<o-form-layout-manager attr="Leaderboard" mode="tab" title="LEADERBOARD">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="LeaderboardTable" 
+            service="Leaderboard" 
+            entity="Leaderboard" 
+            title="LEADERBOARD"
+            keys="id"
+            columns="id;player_id;games_won;games_played" 
+            header-actions="R;D"
+            visible-columns="id;player_id;games_won;games_played"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="player_id" title="player_id">
+    <o-table-cell-renderer-service attr="player_id" 
+        service="Player" entity="PlayerType" columns="id;name"
+        parent-keys="id:player_id"
+        value-column="name" keys="player_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #games_won attr="games_won" title="games_won" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #games_played attr="games_played" title="games_played" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

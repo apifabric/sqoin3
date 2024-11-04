@@ -1,0 +1,44 @@
+<o-form-layout-manager attr="Collision" mode="tab" title="COLLISION">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="CollisionTable" 
+            service="Collision" 
+            entity="Collision" 
+            title="COLLISION"
+            keys="id"
+            columns="id;game_id;timestamp;object_type" 
+            header-actions="R;D"
+            visible-columns="id;game_id;timestamp;object_type"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="game_id" title="game_id">
+    <o-table-cell-renderer-service attr="game_id" 
+        service="Game" entity="GameType" columns="id;id"
+        parent-keys="id:game_id"
+        value-column="id" keys="game_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #timestamp attr="timestamp" title="timestamp" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #object_type attr="object_type" title="object_type" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
